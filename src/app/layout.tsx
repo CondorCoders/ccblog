@@ -16,7 +16,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Analytics />
       <body className="min-h-dvh flex flex-col prose dark:prose-invert relative max-w-full">
         <header className="w-full">
           <div className="max-w-3xl mx-auto">
@@ -38,6 +37,7 @@ export default function RootLayout({
             </Link>
           </div>
         </footer>
+        <Analytics />
       </body>
     </html>
   );
