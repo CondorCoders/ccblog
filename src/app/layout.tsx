@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Logo } from "@/components/Logo";
 import Link from "next/link";
-import { Analytics } from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: "Blog de Condor Coders",
