@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Logo } from "@/components/Logo";
 import Link from "next/link";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: "Blog de Condor Coders",
@@ -15,6 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <Analytics />
       <body className="min-h-dvh flex flex-col prose dark:prose-invert relative max-w-full">
         <header className="w-full">
           <div className="max-w-3xl mx-auto">
