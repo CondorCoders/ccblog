@@ -32,29 +32,28 @@ export const getPosts = async ({
 }: GetPostsProps = {}): Promise<PostType[] | null> => {
   if (!databaseId) return null;
 
-  const filters = [
-    {
-      property: "estado",
-      status: {
-        equals: "publicado",
-      },
-    },
-  ];
-
-  if (categoryId) {
-    filters.push({
-      property: "etiquetas",
-      multi_select: {
-        contains: categoryId,
-      },
-    });
-  }
-
   const response = await notion.databases.query({
     database_id: databaseId,
     page_size: pageSize || 100,
     filter: {
-      and: filters,
+      and: [
+        {
+          property: "estado",
+          status: {
+            equals: "publicado",
+          },
+        },
+        ...(categoryId
+          ? [
+              {
+                property: "etiquetas",
+                multi_select: {
+                  contains: categoryId,
+                },
+              },
+            ]
+          : []),
+      ],
     },
     sorts: [
       {
@@ -129,7 +128,11 @@ export const getCategories = async (): Promise<string[] | null> => {
 
   if (!response || !isFullPageOrDatabase(response)) return null;
 
-  return response.properties.etiquetas?.multi_select?.options?.map(
-    (etiqueta) => etiqueta.name
-  );
+  const etiquetasProperty = response.properties.etiquetas;
+  if (etiquetasProperty?.type === "multi_select") {
+    return etiquetasProperty.multi_select.options.map(
+      (etiqueta: { name: string }) => etiqueta.name
+    );
+  }
+  return null;
 };
